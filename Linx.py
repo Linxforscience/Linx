@@ -65,7 +65,7 @@ class Numlockin_Window(QMainWindow, Ui_MainWindow):
         # Global variables
         self.data = 0
         self.data_loaded = 0
-        self.label_40.setText('Version: 20140123')
+        self.label_40.setText('Version: 20140224')
         self.outputdir=''
 
         # Initialization of fields to default values
@@ -208,12 +208,24 @@ class Numlockin_Window(QMainWindow, Ui_MainWindow):
         self.data_loaded = 0
         
         # Initialization of Qwt.Plot zoomer
+        self.zoomer  =  Qwt.QwtPlotZoomer(self.qwtPlot.xBottom, 
+                        self.qwtPlot.yLeft, 
+                        Qwt.QwtPicker.DragSelection, 
+                        Qwt.QwtPicker.AlwaysOff, 
+                        self.qwtPlot.canvas())
+        self.zoomer.setRubberBandPen(QPen(Qt.black))
         self.zoomer_2  =  Qwt.QwtPlotZoomer(self.qwtPlot_2.xBottom, 
                         self.qwtPlot_2.yLeft, 
                         Qwt.QwtPicker.DragSelection, 
                         Qwt.QwtPicker.AlwaysOff, 
                         self.qwtPlot_2.canvas())
         self.zoomer_2.setRubberBandPen(QPen(Qt.black))
+        self.zoomer_3  =  Qwt.QwtPlotZoomer(self.qwtPlot_3.xBottom, 
+                        self.qwtPlot_3.yLeft, 
+                        Qwt.QwtPicker.DragSelection, 
+                        Qwt.QwtPicker.AlwaysOff, 
+                        self.qwtPlot_3.canvas())
+        self.zoomer_3.setRubberBandPen(QPen(Qt.black))
         self.zoomer_4  =  Qwt.QwtPlotZoomer(self.qwtPlot_4.xBottom, 
                         self.qwtPlot_4.yLeft, 
                         Qwt.QwtPicker.DragSelection, 
@@ -827,6 +839,7 @@ class Numlockin_Window(QMainWindow, Ui_MainWindow):
         self.qwtPlot.curve.attach(self.qwtPlot)
         self.qwtPlot.curve.setPen(QPen(Qt.red))
         self.qwtPlot.curve.setData(self.data[1:longueur:4, 0], y_space)
+        self.zoomer.setZoomBase()
         self.qwtPlot.replot()
         
         self.qwtPlot_3.setTitle("Ref. Signal")
@@ -836,10 +849,10 @@ class Numlockin_Window(QMainWindow, Ui_MainWindow):
         self.qwtPlot_3.curve.attach(self.qwtPlot_3)
         self.qwtPlot_3.curve.setPen(QPen(Qt.red))
         self.qwtPlot_3.curve.setData(self.data[1:longueur:10, 0], y_space_2)
+        self.zoomer_3.setZoomBase()
         self.qwtPlot_3.replot()
         
         #Initialisation de la base de zoom (zoom out max)
-        self.zoomer_4.setZoomBase()
         self.qwtPlot_4.setTitle("B(t)")
         self.qwtPlot_4.setAxisTitle(Qwt.QwtPlot.yLeft, "B (T), PU (V)")
         self.qwtPlot_4.setAxisTitle(Qwt.QwtPlot.xBottom, "time (s)")
@@ -853,6 +866,7 @@ class Numlockin_Window(QMainWindow, Ui_MainWindow):
         self.qwtPlot_4.curve_2.setRenderHint(Qwt.QwtPlotItem.RenderAntialiased)    
         self.qwtPlot_4.curve_2.setPen(QPen(Qt.black))
         self.qwtPlot_4.curve_2.setData(self.data[0::10, 0], y_space_4)
+        self.zoomer_4.setZoomBase()
         self.qwtPlot_4.replot()
     
     def data_analyze(self):
